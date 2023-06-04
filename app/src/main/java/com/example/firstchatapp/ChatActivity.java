@@ -59,6 +59,22 @@ public class ChatActivity extends AppCompatActivity {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(), 1);
         recycler.setLayoutManager(manager);
 
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                recycler.smoothScrollToPosition(adapter.getItemCount()-1);
+            }
+        });
+
+        recycler.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if(adapter.getItemCount()>0){
+                    recycler.smoothScrollToPosition(adapter.getItemCount()-1);
+                }
+            }
+        });
+
         recycler.setAdapter(adapter);
 
         FloatingActionButton btn = findViewById(R.id.addMessageBtn);
